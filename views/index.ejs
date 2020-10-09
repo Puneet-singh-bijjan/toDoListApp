@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ejs </title>
+    <title>To Do List App </title>
     <link rel="stylesheet" type="text/css" href="../public/css/styles.css">
 </head>
 
@@ -18,20 +18,24 @@
     </div>
 
     <div class="box">
-
-        <% for(var i=0 ; i<newListItem.length ;i++){ %>
-        <div class="item">
-            <input type="checkbox">
-            <p><%= newListItem[i] %></p>
-        </div>
-        <%}%>
+        <form action="/delete" method="POST" >
+            <% newListItem.forEach(function(Item){%>
+                <div class="item">
+                    <input type="checkbox" name="checkbox" value="<%= Item._id %>" onChange="this.form.submit()">
+                    <p><%= Item.itemsList %></p>
+                </div>
+                
+                <%});%>
+                <input type="hidden" name="listNName" value="<%= kindOfDay %>"></input>
+        </form>
+        
        
            
         
     <form class="item" action="/" method="post">
         <label for="todolist-item"></label>
         <input type="text" name="new_item" placeholder="New Item" >
-        <button type="submit" name="list" value="<%= kindOfDay %>">+</button>
+        <button type="submit" name="list" value="<%= kindOfDay %>" >+</button>
         </form>
     </div>
 
