@@ -2,12 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const lodash = require("lodash");
-const date = require(__dirname +"/date.js");
 
 const app = express();
-
-
-var workItems = [];
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -41,7 +37,7 @@ const defaultItems = [item1 , item2 , item3];
 
 const listSchema = {
     name: String,
-    items: Array
+    items: [itemSchema]
 }
 
 const List = mongoose.model("List" , listSchema);
@@ -118,9 +114,9 @@ app.post("/", function (req, res) {
 
 app.post("/delete" , function(req , res){
     const deleteItem = req.body.checkbox;
-    const listName = lodash.capitalize(req.body.listNName);
+    const listName = req.body.listNName;
 
-    if(listName == "Today"){
+    if(listName === "Today"){
         Item.findByIdAndDelete(deleteItem , function(err ){
             if (err){
                 console.log("oops u fucked up in deleting data...");
@@ -128,7 +124,7 @@ app.post("/delete" , function(req , res){
                 console.log("success in deleting data...");
             }
             res.redirect("/");
-        });
+        })
     }else{
         List.findOneAndUpdate({name:listName} , {$pull : {items : {_id : deleteItem}}} , function(err , results){
             if(!err){
@@ -137,14 +133,14 @@ app.post("/delete" , function(req , res){
             }
     })
 }
-})
+});
 
 
-
-
-
-
-
-app.listen("3000", function () {
+app.listen(process.env.PORT || "3000", function () {
     console.log("server is up and running....")
-})
+});
+
+
+
+
+//lodash.capitalize(
