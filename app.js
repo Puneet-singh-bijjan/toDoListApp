@@ -114,7 +114,7 @@ app.post("/", function (req, res) {
 
 app.post("/delete" , function(req , res){
     const deleteItem = req.body.checkbox;
-    const listName = req.body.listNName;
+    const listName = lodash.capitalize(req.body.listNName);
 
     if(listName === "Today"){
         Item.findByIdAndDelete(deleteItem , function(err ){
@@ -143,4 +143,4 @@ app.listen(process.env.PORT || "3000", function () {
 
 
 
-//lodash.capitalize(
+lodash.capitalize(
